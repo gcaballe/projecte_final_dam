@@ -1,0 +1,64 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="AppUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AppUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TreeView x:ConnectionId='2'                                                         SelectionMode="Single"
+            Grid.Column="0" CanDrag="False" AllowDrop="False"   Grid.Row="0" x:Name="arbre"></TreeView>
+
+        <Grid Grid.Column="1" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ListView x:ConnectionId='5'  x:Name="listViewRutes" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"></ListView>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBox x:ConnectionId='9' x:Name="filtreRuta"                                  Width="200" Margin="0,0,30,0" VerticalAlignment="Center"></TextBox>
+                <Button x:ConnectionId='10'                       VerticalAlignment="Center" Content="Neteja"></Button>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                
+                <Button x:ConnectionId='6'                     Margin="30,0">Afegir ruta</Button>
+                <Button x:ConnectionId='7'                     Margin="30,0">Modificar ruta</Button>
+                <Button x:ConnectionId='8'                     Margin="30,0">Esborrar Ruta</Button>
+                
+            </StackPanel>
+
+        </Grid>
+
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+
+            <ComboBox x:ConnectionId='3' VerticalAlignment="Center" x:Name="cbCategories"></ComboBox>
+            <Button x:ConnectionId='4'                        Margin="30,0">Generar Report</Button>
+
+        </StackPanel>
+
+
+
+    </Grid>
+</Page>
+

@@ -8,7 +8,6 @@ package appSwing;
 import java.awt.GridLayout;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,20 +49,19 @@ public class AppSwing extends javax.swing.JFrame {
             return;
         }
         
-        String up = prop.getProperty("unit-persistence");
+        String up = prop.getProperty("persistence-unit");
         
         HashMap<String,String> propietats = new HashMap();
         
-        propietats.put("javax.persistence.jdbc.url", "jdbc:mysql://192.168.1.217:3306/projecte_final_dam");
-        propietats.put("javax.persistence.jdbc.user", "guillem");
-        propietats.put("javax.persistence.jdbc.password", "guillem");
-        propietats.put("javax.persistence.jdbc.driver", "com.mysql.cj.jdbc.Driver");
-        propietats.put("hibernate.hbm2ddl.auto", "validate");
-        propietats.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        propietats.put("hibernate.show_sql", "true");
+        propietats.put("javax.persistence.jdbc.url", prop.getProperty("javax.persistence.jdbc.url"));
+        propietats.put("javax.persistence.jdbc.user", prop.getProperty("javax.persistence.jdbc.user"));
+        propietats.put("javax.persistence.jdbc.password", prop.getProperty("javax.persistence.jdbc.password"));
+        propietats.put("javax.persistence.jdbc.driver", prop.getProperty("javax.persistence.jdbc.driver"));
+        propietats.put("hibernate.hbm2ddl.auto", prop.getProperty("hibernate.hbm2ddl.auto"));
+        propietats.put("hibernate.dialect", prop.getProperty("hibernate.dialect"));
+        propietats.put("hibernate.show_sql", prop.getProperty("hibernate.show_sql"));
         
         emf = Persistence.createEntityManagerFactory(up,propietats);
-        System.out.println("EntityManagerFactory creada");
         em = emf.createEntityManager();
         
         try {
@@ -105,9 +103,11 @@ public class AppSwing extends javax.swing.JFrame {
                 
                 //omplir llista de rutes
                 list1.clear();
-                for(String s : categoriaSelected.getRutes()){
-                    System.out.println(s);
-                    list1.add(s);
+                if(categoriaSelected != null && categoriaSelected.getRutes() != null){
+                    for(String s : categoriaSelected.getRutes()){
+                        System.out.println(s);
+                        list1.add(s);
+                    }
                 }
             }
         });
@@ -222,15 +222,18 @@ public class AppSwing extends javax.swing.JFrame {
                 TreePath path;
                 Categoria c = em.find(Categoria.class, categoriaSelected.getId());
                 
-                path = jTree1.getNextMatch(c.getNom(), 0, Position.Bias.Forward);
-                MutableTreeNode mNode = (MutableTreeNode)path.getLastPathComponent();
-                JavaSwingCategories.model.removeNodeFromParent(mNode);
-                JavaSwingCategories.model.reload();
+                if(c.getPare() != null) c.getPare().eliminarFill(c);
+                
                 
                 categoriaSelected = null;
                 em.getTransaction().begin();
                 em.remove(c);
                 em.getTransaction().commit();
+                
+                path = jTree1.getNextMatch(c.getNom(), 0, Position.Bias.Forward);
+                MutableTreeNode mNode = (MutableTreeNode)path.getLastPathComponent();
+                JavaSwingCategories.model.removeNodeFromParent(mNode);
+                JavaSwingCategories.model.reload();
             }else{
                 return;
             }
@@ -254,11 +257,17 @@ public class AppSwing extends javax.swing.JFrame {
             return;
         }
         
-        if(name.equals("")){
+        if(!name.equals("")){
 
-            em.getTransaction().begin();
-            categoriaSelected.setNom(name);
-            em.getTransaction().commit();
+            try{
+                em.getTransaction().begin();
+                categoriaSelected.setNom(name);
+                em.getTransaction().commit();
+            
+            }catch(PersistenceException ex){
+                JOptionPane.showMessageDialog(rootPane, "Error al modificar nom de categoria.  ");
+                return;
+            }
             
             JavaSwingCategories.model.reload();
             

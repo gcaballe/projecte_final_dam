@@ -4,3 +4,6 @@
 /JavaClient/build/
 /JavaClient/dist/
 /JavaServer/dist/
+/ModelServer/nbproject/private/
+/ModelServer/build/
+/ModelServer/dist/

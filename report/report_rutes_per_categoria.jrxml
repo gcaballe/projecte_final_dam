@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_rutes_per_categoria" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f3988c21-4d47-43eb-ad67-4cb2d0b08217">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="240"/>
+	<property name="ireport.jasperserver.reportUnit" value="/m2-gcaballe/report_rutes"/>
+	<property name="ireport.jasperserver.url" value="http://iguixa.hopto.org:5050/jasperserver/services/repository"/>
+	<parameter name="param_id_categoria" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	r.id as r_id,
+	r.titol as r_titol,
+	r.descMarkDown as r_descMarkDown,
+	r.desnivell as r_desnivell,
+	r.alcadaMax as r_alcadaMax,
+	r.alcadaMin as r_alcadaMin,
+	r.distanciaKm as r_distanciaKm,
+	r.tempsAprox as r_tempsAprox,
+	r.circular as r_circular,
+	r.dificultat5 as r_dificultat5,
+	r.foto as r_foto,
+
+	p.numero as p_numero,
+	p.nom as p_nom,
+	p.descripcio as p_descripcio,
+	p.hora as p_hora,
+	p.latitud as p_latitud,
+	p.longitud as p_longitud,
+	p.elevacio as p_elevacio,
+	p.foto as p_foto,
+
+	c.nom as c_nom
+
+FROM ruta r
+left JOIN punt p on (r.id = p.ruta)
+JOIN categoria c on (r.categoria = c.id)
+
+WHERE c.id = $P{param_id_categoria}
+
+order by r.id]]>
+	</queryString>
+	<field name="r_id" class="java.lang.Integer"/>
+	<field name="r_titol" class="java.lang.String"/>
+	<field name="r_descMarkDown" class="java.lang.String"/>
+	<field name="r_desnivell" class="java.lang.Integer"/>
+	<field name="r_alcadaMax" class="java.lang.Integer"/>
+	<field name="r_alcadaMin" class="java.lang.Integer"/>
+	<field name="r_distanciaKm" class="java.lang.Integer"/>
+	<field name="r_tempsAprox" class="java.lang.Integer"/>
+	<field name="r_circular" class="java.lang.Boolean"/>
+	<field name="r_dificultat5" class="java.lang.Integer"/>
+	<field name="r_foto" class="java.lang.String"/>
+	<field name="p_numero" class="java.lang.Integer"/>
+	<field name="p_nom" class="java.lang.String"/>
+	<field name="p_descripcio" class="java.lang.String"/>
+	<field name="p_hora" class="java.lang.Integer"/>
+	<field name="p_latitud" class="java.lang.Double"/>
+	<field name="p_longitud" class="java.lang.Double"/>
+	<field name="p_elevacio" class="java.lang.Integer"/>
+	<field name="p_foto" class="java.lang.String"/>
+	<field name="c_nom" class="java.lang.String"/>
+	<variable name="apache_url" class="java.lang.String">
+		<variableExpression><![CDATA[http://192.168.1.217/projecte_final_dam/]]></variableExpression>
+		<initialValueExpression><![CDATA[http://192.168.1.217/projecte_final_dam/]]></initialValueExpression>
+	</variable>
+	<group name="grup">
+		<groupExpression><![CDATA[$F{r_id}]]></groupExpression>
+		<groupHeader>
+			<band height="291">
+				<textField>
+					<reportElement x="94" y="13" width="57" height="20" uuid="f673c6ac-ef8a-4c37-b044-b5b28ce98e3c"/>
+					<textFieldExpression><![CDATA[$F{r_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="15" y="13" width="28" height="20" uuid="9f9416d0-29d3-4c64-9da3-cf54ed152fa6"/>
+					<text><![CDATA[Id:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="94" y="43" width="57" height="20" uuid="fb2dc8c6-f674-400c-8af0-b24c406ce37d"/>
+					<textFieldExpression><![CDATA[$F{r_titol}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="15" y="43" width="28" height="20" uuid="af237241-7ae4-4485-9498-b7c4a49a5e2f"/>
+					<text><![CDATA[Titol:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="103" width="64" height="20" uuid="24924286-073d-4c98-ba3c-a6a895d9a602"/>
+					<text><![CDATA[Desnivell:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="135" width="64" height="20" uuid="39d01a62-088e-4415-bf1c-48f33a1176b8"/>
+					<text><![CDATA[Alçada Màx:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="170" width="64" height="20" uuid="61211898-0b05-43c3-8eff-103ca11f4719"/>
+					<text><![CDATA[Alçada Mín:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="135" width="64" height="20" uuid="2d7c0c90-0fe2-46ef-894b-9f0df5248b64"/>
+					<text><![CDATA[Temps Aprox:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="170" width="64" height="20" uuid="f69c4e52-2963-4ac9-9b82-917ae355756f"/>
+					<text><![CDATA[Circular:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="374" y="103" width="64" height="20" uuid="e8808529-67c1-41e8-8c4f-71b06e9740a8"/>
+					<text><![CDATA[DistanciaKm:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="207" width="64" height="20" uuid="0e9c5013-962d-4c8b-abc4-b1dbc600ff07"/>
+					<text><![CDATA[Dificultat:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="277" y="103" width="85" height="20" uuid="e2f2504a-dc27-4778-a183-a1916034b9a6"/>
+					<textFieldExpression><![CDATA[$F{r_desnivell}.toString() + "m"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="277" y="135" width="85" height="20" uuid="9a37847a-1ab1-4d32-8a96-b608e43c97c1"/>
+					<textFieldExpression><![CDATA[$F{r_alcadaMax}.toString() + "m"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="277" y="170" width="85" height="20" uuid="0fe4167a-ea49-496d-8469-fdedc0c5efbf"/>
+					<textFieldExpression><![CDATA[$F{r_alcadaMin}.toString() + "m"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="277" y="207" width="85" height="20" uuid="1d510a66-2727-484b-921f-27a219d79bf8"/>
+					<textFieldExpression><![CDATA[$F{r_dificultat5}+ " (sobre 5)"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="454" y="103" width="90" height="20" uuid="2312cab9-7b2e-4f29-a30a-8d03c7009a4a"/>
+					<textFieldExpression><![CDATA[$F{r_distanciaKm}.toString() + "Km"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="454" y="135" width="90" height="20" uuid="59b50a1d-5058-4d90-b5df-15840980cb60"/>
+					<textFieldExpression><![CDATA[( (int)$F{r_tempsAprox} / 60 ) + "h " + ( (int)$F{r_tempsAprox} % 60 ) + "m"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="454" y="170" width="90" height="20" uuid="8fd612c1-0b71-4db8-a412-f2d6fa005052"/>
+					<textFieldExpression><![CDATA[$F{r_circular}?"Si":"No"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="20" y="257" width="64" height="20" uuid="eb01a5d2-2c89-4d6b-b292-ed7ac1e1385d"/>
+					<text><![CDATA[Punts:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="282" width="555" height="1" uuid="d18278a2-60e4-475f-8b82-6e75e93b6c79"/>
+				</line>
+				<image>
+					<reportElement x="0" y="92" width="184" height="154" uuid="ba0ac75c-5188-4e1f-9f1a-cb46ac68b8cc"/>
+					<imageExpression><![CDATA[new URL("http://192.168.1.217/projecte_final_dam/Atuel_River.jpg")]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="12"/>
+		</groupFooter>
+	</group>
+	<columnHeader>
+		<band height="128" splitType="Stretch">
+			<textField>
+				<reportElement x="121" y="12" width="434" height="86" uuid="dcdeb44a-7292-4773-a477-b7fd692d38db"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Informe de rutes de categoria: " + $F{c_nom}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="12" width="134" height="105" uuid="01577c1e-f524-4fa2-bec1-829c7b66b7a1"/>
+				<imageExpression><![CDATA["logo_mila.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="131" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="277" y="16" width="257" height="20" uuid="913b1ff0-8bbd-4f54-9d44-45c607ccbe22"/>
+				<textFieldExpression><![CDATA[$F{p_descripcio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement isPrintRepeatedValues="false" x="73" y="48" width="78" height="20" uuid="8a3922eb-ffbf-4db4-885a-1b0b9ba932b2"/>
+				<textFieldExpression><![CDATA[( (int)$F{p_hora} / (int)60 ) + "h " + ( (int)$F{p_hora} % 60 ) + "m"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="232" y="48" width="74" height="20" uuid="27e6db41-c008-41bd-a2ab-dbabbf45c033"/>
+				<textFieldExpression><![CDATA[$F{p_latitud}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="232" y="90" width="74" height="20" uuid="b551c8d8-cd84-4ed8-a8a4-64b9df43ae39"/>
+				<textFieldExpression><![CDATA[$F{p_longitud}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="73" y="90" width="78" height="20" uuid="b637766d-fada-44dc-aaa2-fdffa5ac2153"/>
+				<textFieldExpression><![CDATA[$F{p_elevacio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="48" width="42" height="20" uuid="a48aa9d4-a211-4a24-87dd-3fb94f2207e4"/>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="90" width="42" height="20" uuid="29f528f1-62c5-4b96-ab9c-cc493c8abd88"/>
+				<text><![CDATA[Elevació:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="48" width="42" height="20" uuid="92d45602-740c-4ef8-894d-185fcefff953"/>
+				<text><![CDATA[Latitud:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="172" y="90" width="42" height="20" uuid="8ec700f8-15f3-48d4-b948-3c70b639722a"/>
+				<text><![CDATA[Longitud:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="16" width="42" height="20" uuid="1f06e23f-0709-43c6-94da-9cb5c5c14908"/>
+				<text><![CDATA[Nom:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="73" y="16" width="74" height="20" uuid="97537f40-50a2-4847-b59e-5cfece3320b7"/>
+				<textFieldExpression><![CDATA[$F{p_nom}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="316" y="48" width="239" height="83" uuid="7cf04527-f501-4116-9522-538284209b03"/>
+				<imageExpression><![CDATA[new URL($V{apache_url}.toString() + "Atuel_River.jpg")]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="430" y="22" width="80" height="20" uuid="c224b81d-c23e-42b8-836f-dfbd9126c572"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pàg. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="510" y="22" width="40" height="20" uuid="fc3d9239-0c0c-4e7a-8f33-2ba365aaff19"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="22" width="100" height="20" uuid="92837a08-f69d-4abc-9cd5-4ed08d5fea64"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

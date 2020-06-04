@@ -1,0 +1,107 @@
+﻿<Page
+    x:Class="AppUWP.DetallPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AppUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:pickers="using:Windows.Storage.Pickers"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Button x:ConnectionId='2'                       Content="&#x21E6;" FontSize="50" VerticalAlignment="Stretch"></Button>
+
+        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Titol Ruta:" Margin="30,0"></TextBlock>
+        <TextBox x:ConnectionId='3'                                       Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" x:Name="tbTitolRuta" Margin="30,0"></TextBox>
+
+
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center" Text="Descripcio:" Margin="30,0" VerticalAlignment="Center"></TextBlock>
+        <TextBox x:ConnectionId='4'                                          AcceptsReturn="True" TextWrapping="Wrap"                                                    Grid.Row="2" Grid.Column="1" x:Name="tbDescMarkDown" ></TextBox>
+
+        <controls:MarkdownTextBlock x:ConnectionId='5' Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="2" x:Name="mtbDescMarkDown"></controls:MarkdownTextBlock>
+
+        
+        <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Desnivell:" Margin="30,0"></TextBlock>
+        <TextBox x:ConnectionId='6'                                        Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" x:Name="tbDesnivell"></TextBox>
+
+
+        <TextBlock Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Text="TempsAprox:" ></TextBlock>
+        <TextBox x:ConnectionId='7'                                         Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" x:Name="tbTempsAprox" ></TextBox>
+
+
+        <TextBlock Text="Alçada Max.:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" ></TextBlock>
+        <TextBox x:ConnectionId='8'                                       Width="150" x:Name="tbAlcadaMax" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" ></TextBox>
+
+
+
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="2" Text="Circular:"></TextBlock>
+        <CheckBox x:ConnectionId='9' VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="3" x:Name="cbCircular"></CheckBox>
+
+
+        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Alçada Min:"></TextBlock>
+        <TextBox x:ConnectionId='10'                                       Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  x:Name="tbAlcadaMin"></TextBox>
+
+
+        <TextBlock Grid.Row="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Difficultat:"></TextBlock>
+        <RatingControl x:ConnectionId='11' Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"  x:Name="rcDificultat"                                 />
+
+
+        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Distancia:"></TextBlock>
+        <TextBox x:ConnectionId='12'                                         Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Width="150" x:Name="tbDistanciaKm"></TextBox>
+
+        <TextBlock Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Categoria:"></TextBlock>
+        <ComboBox x:ConnectionId='13' x:Name="cbCategories" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"></ComboBox>
+        
+        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Foto:"></TextBlock>
+        <Image x:ConnectionId='14' Grid.Row="7" Grid.Column="1" x:Name="imageFotoRuta"></Image>
+        <!--<pickers:FileOpenPicker></pickers:FileOpenPicker>-->
+
+        <TextBlock Grid.Row="7" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Titol foto:"></TextBlock>
+        <TextBox x:ConnectionId='15' Grid.Row="7" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Width="150" x:Name="tbTitolFoto"></TextBox>
+
+        <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Gpx File:"></TextBlock>
+        <!--<pickers:FileOpenPicker></pickers:FileOpenPicker>-->
+
+        <Button x:ConnectionId='16'                                x:Name="btn_ApplyChanges" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Center" Grid.ColumnSpan="2" Content="Aplica Canvis"></Button>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- PUNTS -->
+        <TextBlock FontSize="40" Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"  Text="Punts de la ruta:"></TextBlock>
+
+        <ListView x:ConnectionId='17' Grid.Row="1" Grid.Column="4" Grid.RowSpan="5" x:Name="lvPunts"></ListView>
+        
+        <!-- aqui afegir punt -->
+        
+        
+    </Grid>
+</Page>
+

@@ -42,14 +42,14 @@ public class Categoria {
     @Column(name="nom", nullable=false, length=128)
     private String nom;
     
-    @ManyToOne(optional=true,cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name="pare", nullable=true)
     private Categoria pare;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pare")
     private List<Categoria> filles;
     
-    @ElementCollection
+    @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name = "ruta", joinColumns = @JoinColumn(name = "categoria"))
     @Column(name = "titol")
     private List<String> rutes;
@@ -58,7 +58,7 @@ public class Categoria {
 
     
     
-    static List<Categoria> getAllCategories() {
+    public static List<Categoria> getAllCategories() {
         List<Categoria> arr_cat;
         arr_cat = AppSwing.em.createQuery("SELECT c FROM Categoria c").getResultList(); 
         return arr_cat;
@@ -77,19 +77,27 @@ public class Categoria {
             System.out.println("Has intentat afegirFill(null)");
             return;
         }
-        if (!this.getFilles().contains(c)) {
+        if (this.getFilles() == null){
+            this.filles = new ArrayList<Categoria>();
             filles.add(c);
+            if(c.getPare() != this) c.setPare(this);
+        }else if (!this.getFilles().contains(c)) {
+            filles.add(c);
+            if (c.getPare() != this ) c.setPare(this);
         }
     }
  
     public void eliminarFill(Categoria c) {
-        getFilles().remove(c);
-        c.setPare(null);
+        if(getFilles() != null) getFilles().remove(c);
+        if(c.getPare() != null && c.getPare() != this) c.setPare(null);
     }    
     
-    
-    
     public Categoria(){};
+    
+    public Categoria(int id, String nom){
+        setId(id);
+        setNom(nom);
+    }
     
     public Categoria(int id, String nom, Categoria pare, List<String> rutes) {
         setId(id);
@@ -119,25 +127,45 @@ public class Categoria {
     }
 
     public void setPare(Categoria p) {
-        this.pare = p;
-        if(p != null) p.afegirFill(this);
-    }
+        
+        if(this.getPare() != null){
+            //si ja tenia pare
+            this.getPare().eliminarFill(this);            
+            this.pare = p;
 
-    public List<String> getRutes() {
-        return rutes;
+            if(p != null && !p.getFilles().contains(this)){ // el contains ja el fa el afegirFill
+                p.afegirFill(this);
+            }
+            
+        }else{
+            //si no tenia pare
+            if(p == null){
+                this.pare = p;
+            }else{
+                this.pare = p; 
+                if(p.getFilles() != null && !p.getFilles().contains(this)){ // el contains ja el fa el afegirFill
+                    p.afegirFill(this);
+                }
+            }
+        }
     }
 
     public void setRutes(List<String> rutes) {
         this.rutes = rutes;
+    }
+    
+    public void setFilles(List<Categoria> filles) {
+        this.filles = filles;
+    }
+    
+    public List<String> getRutes() {
+        return rutes;
     }
 
     public List<Categoria> getFilles() {
         return filles;
     }
 
-    public void setFilles(List<Categoria> filles) {
-        this.filles = filles;
-    }
 
     @Override
     public String toString(){

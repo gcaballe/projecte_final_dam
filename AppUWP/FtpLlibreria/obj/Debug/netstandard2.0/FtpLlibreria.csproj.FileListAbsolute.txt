@@ -1,0 +1,9 @@
+E:\projecte_final_dam\AppUWP\FtpLlibreria\bin\Debug\netstandard2.0\FtpLlibreria.deps.json
+E:\projecte_final_dam\AppUWP\FtpLlibreria\bin\Debug\netstandard2.0\FtpLlibreria.dll
+E:\projecte_final_dam\AppUWP\FtpLlibreria\obj\Debug\netstandard2.0\FtpLlibreria.csprojAssemblyReference.cache
+E:\projecte_final_dam\AppUWP\FtpLlibreria\obj\Debug\netstandard2.0\FtpLlibreria.csproj.CoreCompileInputs.cache
+E:\projecte_final_dam\AppUWP\FtpLlibreria\obj\Debug\netstandard2.0\FtpLlibreria.AssemblyInfoInputs.cache
+E:\projecte_final_dam\AppUWP\FtpLlibreria\obj\Debug\netstandard2.0\FtpLlibreria.AssemblyInfo.cs
+E:\projecte_final_dam\AppUWP\FtpLlibreria\bin\Debug\netstandard2.0\FtpLlibreria.pdb
+E:\projecte_final_dam\AppUWP\FtpLlibreria\obj\Debug\netstandard2.0\FtpLlibreria.dll
+E:\projecte_final_dam\AppUWP\FtpLlibreria\obj\Debug\netstandard2.0\FtpLlibreria.pdb

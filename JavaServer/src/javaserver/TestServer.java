@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.ClassNotFoundException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
@@ -22,9 +21,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.Query;
+import cat.cabapek.*;
+
 
 /**
  *
@@ -43,17 +41,16 @@ public class TestServer {
         try {
             prop.load(new FileInputStream("config.properties"));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(JavaServer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No s'ha trobat el arxiu config.properties.");
         } catch (IOException ex) {
-            Logger.getLogger(JavaServer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Ha petat amb IOException al obrir config.properties");
         }
-        
         
         try {  
             Class.forName(prop.getProperty("db.driver"));
             con=DriverManager.getConnection(prop.getProperty("db.url"),prop.getProperty("db.username"),prop.getProperty("db.password"));
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(JavaServer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al conectar a la BD." + ex.getMessage());
         }
         
         
@@ -99,12 +96,16 @@ public class TestServer {
                     oos.writeObject(ir.getGpxURL());
                     oos.writeObject(ir.getPhotoURL());
                     oos.writeObject(ir.getPhotoTitol());
+                    oos.writeObject(ir.getCategoria().getId());
+                    oos.writeObject(ir.getCategoria().getNom());
                 }
                 oos.close();
             }else if (codi == 2){
                 
                 //get id_ruta
                 Integer id_ruta = (Integer) ois.readObject();
+                
+                System.out.println("Un client m'ha demanat infoRuta(id_ruta="+id_ruta+")");
                 
                 //envio InfoRuta
                 InfoRuta ir = getInfoRuta(id_ruta);
@@ -122,13 +123,16 @@ public class TestServer {
                 oos.writeObject(ir.getGpxURL());
                 oos.writeObject(ir.getPhotoURL());
                 oos.writeObject(ir.getPhotoTitol());
-                
+                oos.writeObject(ir.getCategoria().getId());
+                oos.writeObject(ir.getCategoria().getNom());
+                    
                 //getArrayPunts
                 List<Punt> arr_punts = getListPunts(id_ruta);
                 
                 int num_punts = arr_punts.size();
                 //envio num_punts
                 oos.writeObject(num_punts);
+                System.out.println("Procedeixo a enviar "+num_punts+" punts.");
             
                 //envio Arraypunts
                 for(int x = 0; x < num_punts; x++){
@@ -177,7 +181,7 @@ public class TestServer {
         try {  
             
             stmt = con.createStatement();  
-            rs = stmt.executeQuery("SELECT r.*, f.titol as foto_titol, f.url as foto_url FROM ruta r JOIN foto f on (r.foto = f.url)");  
+            rs = stmt.executeQuery("SELECT r.*, f.titol as foto_titol, f.url as foto_url, c.id as cat_id, c.nom as cat_nom FROM ruta r JOIN foto f on (r.foto = f.url) JOIN categoria c on (r.categoria = c.id)");  
             while(rs.next()){
                 int id = rs.getInt("id");
                 String titol = rs.getString("titol");
@@ -193,14 +197,19 @@ public class TestServer {
                 String gpxURL = rs.getString("gpxFileUrl");
                 String photoURL = rs.getString("foto_url");
                 String photoTitol = rs.getString("foto_titol");
-                ret.add(new InfoRuta(id, titol, descMarkDown, desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat5, gpxURL, photoURL, photoTitol));
+                
+                Integer idCat = rs.getInt("cat_id");
+                String nomCat = rs.getString("cat_nom");
+                
+                Categoria c = new Categoria(idCat, nomCat);
+                ret.add(new InfoRuta(id, titol, descMarkDown, desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat5, gpxURL, photoURL, photoTitol, c));
             }
             rs.close();
         
         } catch (SQLException ex) {
-            Logger.getLogger(JavaServer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error de SQL: "+ ex.getMessage());
         }
-        //System.out.println("Retorno: " + ret.toString());
+        System.out.println("He fet query a la BD (getListInfoRutes): " + ret.toString());
         
         return ret;
     }
@@ -213,7 +222,7 @@ public class TestServer {
                 
         try {  
             
-            PreparedStatement ps = con.prepareStatement("SELECT r.*, f.titol as foto_titol, f.url as foto_url FROM ruta r JOIN foto f on (r.foto = f.url) WHERE r.id = ?");  
+            PreparedStatement ps = con.prepareStatement("SELECT r.*, f.titol as foto_titol, f.url as foto_url, c.id as cat_id, c.nom as cat_nom FROM ruta r JOIN foto f on (r.foto = f.url) JOIN categoria c on (r.categoria = c.id) WHERE r.id = ?");  
             ps.setInt(1, idRuta);
             rs = ps.executeQuery();
             
@@ -232,12 +241,17 @@ public class TestServer {
                 String gpxURL = rs.getString("gpxFileUrl");
                 String photoURL = rs.getString("foto_url");
                 String photoTitol = rs.getString("foto_titol");
-                ret = new InfoRuta(id, titol, descMarkDown, desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat5, gpxURL, photoURL, photoTitol);
+                
+                Integer idCat = rs.getInt("cat_id");
+                String nomCat = rs.getString("cat_nom");
+                
+                Categoria c = new Categoria(idCat, nomCat);
+                ret = new InfoRuta(id, titol, descMarkDown, desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat5, gpxURL, photoURL, photoTitol, c);
             }
             rs.close();
         
         } catch (SQLException ex) {
-            Logger.getLogger(JavaServer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error de SQL: "+ ex.getMessage());
         }
         System.out.println("Retorno: " + ret);
         return ret;
@@ -271,9 +285,9 @@ public class TestServer {
             rs.close();
         
         } catch (SQLException ex) {
-            Logger.getLogger(JavaServer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error de SQL: "+ ex.getMessage());
         }
-        System.out.println("Dins de getListPUnts Retorno: " + ret);
+        System.out.println("Dins de getListPunts Retorno: " + ret);
         return ret;
     }
     

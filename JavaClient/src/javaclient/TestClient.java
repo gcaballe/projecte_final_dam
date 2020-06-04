@@ -11,6 +11,9 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import cat.cabapek.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -18,13 +21,12 @@ import java.net.UnknownHostException;
  */
 public class TestClient {
     
-    
-    
-    
+   
     // AQUEST MAIN TESTEJA EL CODI 1
-    /*public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
+    
+    public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         //get the localhost IP address, if server is running on some other IP, you need to use that
-        InetAddress host = InetAddress.getLocalHost();
+        InetAddress host = InetAddress.getByName("192.168.1.217");
         Socket socket = null;
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
@@ -56,7 +58,12 @@ public class TestClient {
                 String photoURL = (String)ois.readObject();
                 String photoTitol = (String)ois.readObject();
                 
-                InfoRuta ir = new InfoRuta(id, titol, descMarkDown,desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat, gpxURL, photoURL, photoTitol);
+                Integer idCat = (int)ois.readObject();
+                String nomCat = (String)ois.readObject();
+                
+                Categoria c = new Categoria(idCat, nomCat);
+                
+                InfoRuta ir = new InfoRuta(id, titol, descMarkDown,desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat, gpxURL, photoURL, photoTitol, c);
                 System.out.println("ir="+ir);
             }
             
@@ -65,11 +72,11 @@ public class TestClient {
             oos.close();
            
         
-    }*/
-    
+    }
+
     
     //AQUEST MAIN TESTEJA CODI 2
-    public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
+    /*public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         //get the localhost IP address, if server is running on some other IP, you need to use that
         InetAddress host = InetAddress.getLocalHost();
         Socket socket = null;
@@ -105,7 +112,12 @@ public class TestClient {
             String photoURL = (String)ois.readObject();
             String photoTitol = (String)ois.readObject();
                 
-            InfoRuta ir = new InfoRuta(id, titol, descMarkDown,desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat, gpxURL, photoURL, photoTitol);
+            Integer idCat = (int)ois.readObject();
+            String nomCat = (String)ois.readObject();
+
+            Categoria c = new Categoria(idCat, nomCat);
+                
+            InfoRuta ir = new InfoRuta(id, titol, descMarkDown,desnivell, alcadaMax, alcadaMin, distanciaKm, tempsAprox, circular, dificultat, gpxURL, photoURL, photoTitol, c);
             System.out.println("InfoRuta="+ir);
             
             //get num_punts
@@ -134,6 +146,6 @@ public class TestClient {
             oos.close();
            
         
-    }
+    }*/
     
 }

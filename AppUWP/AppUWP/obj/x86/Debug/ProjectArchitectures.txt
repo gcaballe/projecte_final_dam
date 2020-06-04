@@ -1,0 +1,2 @@
+E:\projecte_final_dam\AppUWP\AppUWP\AppUWP.csproj;x86
+E:\projecte_final_dam\AppUWP\Model\Model.csproj;x86
